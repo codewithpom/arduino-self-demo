@@ -22,13 +22,10 @@ export async function POST(request: NextRequest) {
       stream.on("error", reject)
     })
 
-    // Convert Buffer to ArrayBuffer for NextResponse compatibility
-    const arrayBuffer = audioBuffer.buffer.slice(
-      audioBuffer.byteOffset,
-      audioBuffer.byteOffset + audioBuffer.byteLength
-    )
+    // Convert Buffer to Uint8Array for NextResponse compatibility
+    const uint8Array = new Uint8Array(audioBuffer)
 
-    return new NextResponse(arrayBuffer, {
+    return new NextResponse(uint8Array, {
       headers: {
         "Content-Type": "audio/mpeg",
         "Cache-Control": "public, max-age=3600",
